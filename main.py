@@ -50,7 +50,7 @@ def german_vocabulary_quiz():
     print(f"\nCelkový počet správných odpovědí: {correct_count}/{len(vocabulary)}")
 
 def german_vocabulary_prep():
-    incorrect_words = list(vocabulary.keys())  # Initialize with all Czech words
+    incorrect_words = list(vocabulary.keys())
     correct_count = 0
 
     while incorrect_words:
