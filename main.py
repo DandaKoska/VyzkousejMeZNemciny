@@ -41,7 +41,7 @@ def german_vocabulary_quiz():
     for czech_word, correct_translation in vocabulary.items():
         user_translation = input(f"Jak se řekne '{czech_word}' po německy? ")
 
-        if user_translation.lower() == correct_translation.lower():
+        if user_translation.lower() == vocabulary[czech_word].lower():
             print("Správně!")
             correct_count += 1
         else:
@@ -50,7 +50,7 @@ def german_vocabulary_quiz():
     print(f"\nCelkový počet správných odpovědí: {correct_count}/{len(vocabulary)}")
 
 def german_vocabulary_prep():
-    incorrect_words = list(vocabulary.keys())
+    incorrect_words = list(vocabulary.keys())  # Initialize with all Czech words
     correct_count = 0
 
     while incorrect_words:
