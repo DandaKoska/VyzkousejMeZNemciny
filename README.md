@@ -10,6 +10,7 @@ Todo:
 - Přidat návod
 - Doplnit "Jak to funguje?"
 - Přidat více "metod" učení
+- Předělat celý kód, v tento moment tam hodně věcí nedává smysl :D
 
 Known bugs:
 - None
