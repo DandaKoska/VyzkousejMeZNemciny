@@ -5,5 +5,10 @@ Jak to funguje?
 ----
 
 Todo:
-- Read from server - Danda
-- Add version? DANDO???
+- Čtení ze serveru
+- Přidat verzi
+- Přidat release do exe
+- Přidat návod
+
+Known bugs:
+- None
