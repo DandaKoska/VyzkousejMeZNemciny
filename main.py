@@ -78,85 +78,50 @@ vocabulary_sets = {
             "der Ort": "zde: místo"
         }
     },
-    # Zde dando kdyžtak přidávej další slovíčka a dáme to na parts ve stylu super2 lektion 18 part 1 a to stejný ale part 2 v jiným listu chápeš
 }
 
-def select_vocabulary_set():
-    print("Dostupné sady slovíček:")
-    for vocab_set, vocab_data in vocabulary_sets.items():
-        label = vocab_data["label"]
-        print(f"Type '{vocab_set}' for {label}")
-
-    vocabulary_set = input("Zadejte název sady slovíček: ")
-    return vocabulary_set
-
-def german_vocabulary_quiz(vocabulary_set):
-    vocabulary = vocabulary_sets.get(vocabulary_set)
-    if not vocabulary:
-        print(f"Sada slovíček '{vocabulary_set}' neexistuje.")
-        return
-
-    incorrect_words = list(vocabulary["vocabulary"].keys())
-    incorrect_count = 0
-
-    for czech_word in incorrect_words:
-        correct_translation = vocabulary["vocabulary"][czech_word]
-        user_translation = input(f"Jak se řekne '{correct_translation}' po německy? ")
-
-        if user_translation.lower() == czech_word.lower():
+def learn_vocabulary(vocabulary):
+    words = list(vocabulary.keys())
+    random.shuffle(words)
+    for word in words:
+        translation = vocabulary[word]
+        guess = input(f"Jak se překládá slovo '{word}'? ")
+        if guess == translation:
             print("Správně!")
         else:
-            print(f"Nesprávně. Správný překlad je: '{czech_word}'.")
-            incorrect_count += 1
+            print(f"Nesprávně. Správný překlad je '{translation}'.")
 
-    print(f"\nPočet špatných odpovědí: {incorrect_count}/{len(vocabulary['vocabulary'])}")
-
-def german_vocabulary_prep(vocabulary_set):
-    vocabulary = vocabulary_sets.get(vocabulary_set)
-    if not vocabulary:
-        print(f"Vocabulary set '{vocabulary_set}' does not exist.")
-        return
-
-    incorrect_words = list(vocabulary["vocabulary"].keys())
-    correct_count = 0
-
-    while incorrect_words:
-        czech_word = random.choice(incorrect_words)
-        correct_translation = vocabulary["vocabulary"][czech_word]
-        user_translation = input(f"Jak se řekne '{correct_translation}' po německy? ")
-
-        if user_translation.lower() == czech_word.lower():
-            print("Správně!")
-            incorrect_words.remove(czech_word)
-            correct_count += 1
+def test_vocabulary(vocabulary):
+    words = list(vocabulary.keys())
+    random.shuffle(words)
+    correct = 0
+    incorrect = []
+    for word in words:
+        translation = vocabulary[word]
+        guess = input(f"Jak se překládá slovo '{word}'? ")
+        if guess == translation:
+            print("správně")
+            correct += 1
         else:
-            print(f"Nesprávně. Správný překlad je: '{czech_word}'.")
+            print("špatně")
+            incorrect.append((word, translation, guess))
+    percentage = (correct / len(words)) * 100
+    print(f"Uhodli jste {correct} z {len(words)} slov správně ({percentage:.2f}%).")
+    if incorrect:
+        print("Slova, která jste uhodli špatně:")
+        for word, translation, guess in incorrect:
+            print(f"{word} - správný překlad: {translation}, váš překlad: {guess}")
 
-    print(f"\nVšechna slova byla správně zopakována! Celkový počet správných odpovědí: {correct_count}/{len(vocabulary['vocabulary'])}")
-
-def main():
-    vocabulary_set = select_vocabulary_set()
-
-    while True:
-        print("Vyber si možnost:")
-        print("1. Učící se fáze")
-        print("2. Test")
-        print("3. Odejít")
-        print("4. Vybrat jinou sadu slovíček")
-
-        choice = input("Zadejte svoji volbu: ")
-
-        if choice == "1":
-            german_vocabulary_prep(vocabulary_set)
-        elif choice == "2":
-            german_vocabulary_quiz(vocabulary_set)
-        elif choice == "3":
-            print("Ukončuji!")
-            break
-        elif choice == "4":
-            vocabulary_set = select_vocabulary_set()
-        else:
-            print("Neplatná volba.\n")
-
-if __name__ == "__main__":
-    main()
+# Zeptejte se uživatele, kterou sadu slovíček chce naučit
+vocabulary_set = input("Kterou sadu slovíček chcete naučit? (1 nebo 2) ")
+if vocabulary_set in vocabulary_sets:
+    vocabulary = vocabulary_sets[vocabulary_set]["vocabulary"]
+    action = input("Chcete se učit nebo testovat? (u/t) ")
+    if action == "u":
+        learn_vocabulary(vocabulary)
+    elif action == "t":
+        test_vocabulary(vocabulary)
+    else:
+        print("Neplatná akce. Prosím, zadejte 'u' pro učení nebo 't' pro testování.")
+else:
+    print("Neplatná sada slovíček. Prosím, zadejte '1' nebo '2'.")
